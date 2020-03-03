@@ -3,13 +3,11 @@
 
 session_start();
 
+require_once "class/Config.class.php";
+require_once "class/db.class.php";
 require_once "class/upload.class.php";
 require_once "class/csv2sql.class.php";
-require_once "class/db.class.php";
 
-global $db;
-
-$db = new db("localhost", "csv2sql", "root", "");
 
 if(isset($_FILES['csvFile']))
 {
@@ -17,9 +15,9 @@ if(isset($_FILES['csvFile']))
 
     if($uploadHand->getErrno() == NULL)
     {
-        $uploadHand->execute(0);
+        $uploadHand->execute(UPLOAD_TO_JSON);
 
-        $csvHand = new csv2sql\csv2sql;
+        $csvHand = new csv2sql;
 
         if($csvHand->parseCsv())
         {
@@ -44,18 +42,3 @@ else
     echo "Nie ma pliku";
 
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Dodawanie pliku </title>
-    </head>
-    <body>
-        <form method="post" action="" enctype="multipart/form-data">
-            <input type="file" name="csvFile">
-            <input type="submit" value="Wyślij plik">
-
-        </form>
-
-    </body>
-
-</html>

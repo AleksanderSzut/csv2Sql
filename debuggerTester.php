@@ -1,6 +1,17 @@
 <?php
 
     require_once "class/Config.class.php";
+    require_once "class/db.class.php";
 
-$conf = new Config();
-$conf->init();
+    class testDb
+    {
+        protected $dbConn;
+
+        public function __construct()
+        {
+            $this->dbConn = db::getDbConn();
+
+        }
+    }
+
+    new testDb();

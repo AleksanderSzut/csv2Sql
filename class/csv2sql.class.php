@@ -1,11 +1,16 @@
 <?php
 
-namespace csv2sql;
+
 
 class csv2sql
 {
 
-    private $csvJson, $csvArr;
+    private $csvJson, $csvArr, $dbConn;
+
+    public function __construct()
+    {
+        $this->dbConn = db::getDbConn();
+    }
 
     public function csvToArr()
     {
@@ -18,8 +23,7 @@ class csv2sql
 
     public function getSchoolByRspo($rspo)
     {
-        global $db;
-        $pdo = $db->getPdo();
+        $pdo = $this->dbConn;
 
         $statement = $pdo->query("SELECT * FROM szkplacowki WHERE rspo='$rspo'");
 
@@ -31,8 +35,7 @@ class csv2sql
     }
     public function deleteSchoolByRspo($rspo)
     {
-        global $db;
-        $pdo = $db->getPdo();
+        $pdo = $this->dbConn;
 
         if($pdo->query("DELETE FROM szkplacowki WHERE rspo='$rspo'"))
             return TRUE;
@@ -41,9 +44,7 @@ class csv2sql
     }
     public function addSchool($schoolRow)
     {
-        global $db;
-        $pdo = $db->getPdo();
-
+        $pdo = $this->dbConn;
 
         $keys = "";
         $i = 0;

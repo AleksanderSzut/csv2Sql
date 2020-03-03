@@ -5,11 +5,23 @@
 <!DOCTYPE html>
 <html>
 
-    <head></head>
+    <head>
+        <script src="functionAssets.js"></script>
+        <link rel="stylesheet" type="text/css" href="source/uploadFile.css">
+    </head>
     <body>
-        <a href="upload.php"><h2>Dodaj CSV na serwer</h2></a>
-        <a href="sendToDb.php"><h2>Konwerter CSV na SQL</h2></a>
 
+        <form id="formFile">
+            <input type="file" id="fileInp" name="csvFile">
+            <label for="fileInp">
+                <div class="choseFile"> Wybierz plik</div>
+
+            </label>
+            <button type="submit">Wyślij</button>
+        </form>
+        <p id="messageBox"></p>
+        <progress id="uploadProgress"></progress>
+        <script>initUpload("formFile", "messageBox", "uploadProgress")</script>
 
     </body>
 

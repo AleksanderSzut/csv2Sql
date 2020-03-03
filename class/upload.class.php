@@ -3,9 +3,13 @@
 
 // abstract method implement in abstract factory
 
+define("UPLOAD_TO_JSON", 0);
+define("UPLOAD_TO_FILE", 1);
+
+
 abstract class upload
 {
-    protected $maxSize, $name = 'tmp_csv.csv', $tmp_name, $errno;
+    protected $maxSize, $tmp_name, $errno;
 
     /**
      * //check error and correctness extension
@@ -71,14 +75,23 @@ abstract class upload
     }
 }
 
+//you can more exception for upload. But class need construct with hand to parent construct and execute method
 class uploadCsv extends upload
 {
+    /**
+     * @param string $fileHandName name of input file in form
+     */
     public function __construct($fileHandName)
     {
         parent::__construct($fileHandName, array('csv'));
     }
 
-    public function execute($typeEx = 0)
+    /**
+     * @param $typeEx int with this we chose saving type
+     * @return void
+     * this method convert to json and save to sess or save to file in server
+     * */
+    public function execute($typeEx = 0 )
     {
         switch ($typeEx) {
             case 0: //to sess
