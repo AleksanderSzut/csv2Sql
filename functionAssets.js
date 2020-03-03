@@ -1,16 +1,32 @@
 
-let form, inputFile, submitForm, uploadProgress, message;
+let form, inputFile, submitForm, uploadProgress, message, nameUploadFile;
 
 
-function initUpload(formID, messageID, progressBarID)
+function initUpload(formID, messageID, progressBarID, nameUploadFileID)
 {
     form = document.getElementById(formID);
     inputFile = form.childNodes[1];
     submitForm = form.childNodes[2];
     uploadProgress = document.getElementById(progressBarID);
     message = document.getElementById(messageID);
+    nameUploadFile = document.getElementById(nameUploadFileID);
 
-    console.log(inputFile);
+
+    inputFile.addEventListener('change', function () {
+        let nameFile = inputFile.files.item(0).name;
+
+        if(nameFile != null)
+        {
+            nameUploadFile.classList.add("active");
+            nameUploadFile.textContent = nameFile;
+        }
+        else
+        {
+            nameUploadFile.classList.add("active");
+            nameUploadFile.textContent = "";
+
+        }
+    });
 
     form.addEventListener('submit', function (e) {
 
@@ -26,7 +42,7 @@ function initUpload(formID, messageID, progressBarID)
             uploadProgress.value = 0;
             uploadProgress.max = e.total;
             message.textContent = 'wysyłanie pliku...';
-            inputFile.disabled = true;
+            form.classList.add("disable");
         };
 
         xhr.upload.onprogress = function (e) {
@@ -36,6 +52,7 @@ function initUpload(formID, messageID, progressBarID)
 
         xhr.upload.onloadend = function(e) {
             uploadProgress.classList.remove('visible');
+            form.classList.remove('disable');
             message.textContent = 'Ukończono';
             inputFile.disabled = false;
         };
